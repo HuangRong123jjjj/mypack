@@ -2,6 +2,7 @@
 let fs = require('fs');
 let ejs =require('ejs')
 let path = require('path')
+let cssLoader = require('E:\\mypack\\myPack\\cssLoader.js')
 let entry = './src/index.js';
 let bundle = './myPack/bundle2.js';
 let output = './dist/main.js';
@@ -10,6 +11,9 @@ let modules = [];
 script = script.replace(/require\(['"](.+?)['"]\)/g,function(){
     let name = path.join('./src',arguments[1]);
     let content = fs.readFileSync(name,'utf8');
+    if(/\.css$/.test(name)){
+        content = cssLoader(content);
+    }
     modules.push({
         name,
         content
